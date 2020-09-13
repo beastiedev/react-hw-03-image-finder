@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ImageGalleryItem = ({ image }) => {
+const ImageGalleryItem = ({ image, onGalleryItemClick }) => {
   return (
-    <li className="ImageGalleryItem">
-      <img src={image.webformatURL} alt={image.id} className="ImageGalleryItem-image" />
+    <li className="ImageGalleryItem" onClick={() => onGalleryItemClick(image)}>
+      <img
+        src={image.webformatURL}
+        alt={image.id}
+        className="ImageGalleryItem-image"
+      />
     </li>
   );
 };
