@@ -16,18 +16,16 @@ class App extends Component {
     loading: false,
   };
 
-  handleOnSubmitSearchbar = (e) => {
-    e.preventDefault();
+  handleOnSubmitSearchbar = (search) => {
     console.log("handleOnSubmitSearchbar");
+    this.setState(
+      { gallery: [], page: 1, queryString: search.queryString },
+      this.getGallery
+    );
   };
 
-  handleOnLoadMore = (e) => {
-    e.preventDefault();
-    console.log("handleOnLoadMore");
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
+  handleOnLoadMore = () => {
+    // this.scrollDown();
     this.setState(
       ({ page }) => ({
         page: page + 1,
@@ -37,7 +35,7 @@ class App extends Component {
   };
 
   getGallery() {
-    this.setState({ loading: true }, () => 
+    this.setState({ loading: true }, () =>
       axios
         .get(
           `https://pixabay.com/api/?q=${this.state.queryString}&page=${this.state.page}&key=${this.PIXABAY_API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
@@ -77,7 +75,9 @@ class App extends Component {
             width={80}
           />
         )}
-        <Button onLoadMore={this.handleOnLoadMore} />
+        {!!this.state.gallery.length && (
+          <Button onLoadMore={this.handleOnLoadMore} />
+        )}
       </div>
     );
   }
