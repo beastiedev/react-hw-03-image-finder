@@ -44,7 +44,6 @@ class App extends Component {
   };
 
   getGallery() {
-    // this.updateUrlQueryString();
     this.setState({ loading: true }, () =>
       axios
         .get(
@@ -65,37 +64,7 @@ class App extends Component {
     );
   }
 
-  // scrollDown() {
-  //   window.scrollTo({
-  //     top: document.documentElement.scrollHeight,
-  //     behavior: "smooth",
-  //   });
-  // }
-
-  // updateUrlQueryString() {
-  //   if (window.history.pushState) {
-  //     const query = this.state.queryString
-  //       ? "?search=" + this.state.queryString
-  //       : "";
-  //     const newurl =
-  //       window.location.protocol +
-  //       "//" +
-  //       window.location.host +
-  //       window.location.pathname +
-  //       query;
-  //     window.history.pushState({ path: newurl }, "", newurl);
-  //   }
-  // }
-
-  // checkUrlQueryString(cb) {
-  //   if (window.location.search) {
-  //     const query = window.location.search.substring(1).split("=")[1];
-  //     this.setState({ queryString: query }, cb);
-  //   }
-  // }
-
   componentDidMount() {
-    // this.checkUrlQueryString(this.getGallery);
     this.getGallery();
   }
 
