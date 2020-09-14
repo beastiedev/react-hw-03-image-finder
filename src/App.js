@@ -7,15 +7,16 @@ import Button from "./components/Button";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Modal from "./components/Modal";
+import AppConfig from "./AppConfig";
 
 class App extends Component {
-  PIXABAY_API_KEY = "18287920-2c6b357e03b1c2c3350c52738";
+  PIXABAY_API_KEY = AppConfig.PIXABAY_API_KEY;
   state = {
     gallery: [],
     queryString: "",
     page: 1,
-    loading: false,
-    modal: false,
+    isLoading: false,
+    isModal: false,
     modalImage: {},
   };
 
@@ -36,15 +37,15 @@ class App extends Component {
   };
 
   handleOnGalleryItemClick = (image) => {
-    this.setState({ modal: true, modalImage: image });
+    this.setState({ isModal: true, modalImage: image });
   };
 
   handleOnCloseModal = () => {
-    this.setState({ modal: false, modalImage: null });
+    this.setState({ isModal: false, modalImage: null });
   };
 
   getGallery() {
-    this.setState({ loading: true }, () =>
+    this.setState({ isLoading: true }, () =>
       axios
         .get(
           `https://pixabay.com/api/?q=${this.state.queryString}&page=${this.state.page}&key=${this.PIXABAY_API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
@@ -52,7 +53,7 @@ class App extends Component {
         .then((response) => {
           this.setState(({ gallery }) => ({
             gallery: this.setUniq([...gallery, ...response.data.hits]),
-            loading: false,
+            isLoading: false,
           }));
         })
     );
@@ -76,7 +77,7 @@ class App extends Component {
           gallery={this.state.gallery}
           onGalleryItemClick={this.handleOnGalleryItemClick}
         />
-        {this.state.loading && (
+        {this.state.isLoading && (
           <Loader
             className="Loader"
             type="ThreeDots"
@@ -86,9 +87,9 @@ class App extends Component {
           />
         )}
         {!!this.state.gallery.length && (
-          <Button onLoadMore={this.handleOnLoadMore} />
+          <Button onClick={this.handleOnLoadMore} />
         )}
-        {this.state.modal && this.state.modalImage && (
+        {this.state.isModal && this.state.modalImage && (
           <Modal
             onCloseModal={this.handleOnCloseModal}
             image={this.state.modalImage}

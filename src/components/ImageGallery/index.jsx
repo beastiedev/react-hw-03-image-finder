@@ -10,8 +10,19 @@ class ImageGallery extends PureComponent {
     });
   }
 
-  componentDidUpdate() {
-    this.scrollDown();
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    const prevGallery = prevProps.gallery;
+    const nextGallery = this.props.gallery;
+    if (prevGallery.length < nextGallery.length) {
+      return nextGallery.length - prevGallery.length;
+    }
+    return 0;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot) {
+      this.scrollDown();
+    }
   }
 
   render() {
